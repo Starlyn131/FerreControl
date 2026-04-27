@@ -1,0 +1,169 @@
+📄 DOCUMENTO DE REQUERIMIENTOS DE SOFTWARE
+Sistema POS + Inventario para Ferretería
+1. 📌 Información General
+
+Nombre del sistema: FerreControl (provisional)
+Tipo: Aplicación Web (compatible con PC y dispositivos móviles)
+Usuario objetivo: Dueño de ferretería (uso individual)
+Propósito: Gestionar ventas, inventario y ganancias de forma rápida y sencilla.
+
+2. 🎯 Objetivos del Sistema
+Registrar ventas de manera rápida (tipo caja/POS)
+Controlar inventario en tiempo real
+Visualizar ganancias diarias y mensuales
+Reducir errores manuales
+Facilitar la toma de decisiones
+
+3. 🖥️ Plataforma y Acceso
+Aplicación web responsive
+Acceso desde navegador (Chrome recomendado)
+Compatible con:
+PC (uso principal)
+Móvil (uso secundario)
+4. 🧭 Estructura del Sistema (Módulos)
+4.1 Dashboard (Inicio)
+
+Funciones:
+
+Mostrar ventas del día
+Mostrar ganancia del día
+Mostrar productos con bajo stock
+Mostrar últimas ventas
+4.2 Módulo de Ventas (POS)
+
+Descripción:
+Interfaz rápida para registrar ventas.
+
+Funciones:
+
+Buscar productos por nombre
+Agregar productos a la venta
+Modificar cantidad
+Eliminar productos
+Calcular total automáticamente
+
+Métodos de pago:
+
+Efectivo
+Transferencia
+
+Resultado:
+
+Registro de venta
+Descuento automático de inventario
+4.3 Módulo de Inventario
+
+Funciones:
+
+Listar productos
+Crear nuevo producto
+Editar producto
+Ajustar stock
+
+Campos del producto:
+
+Nombre
+Precio de compra
+Precio de venta
+Stock actual
+Stock mínimo
+4.4 Módulo de Reportes
+
+Funciones:
+
+Ver ventas diarias
+Ver ventas mensuales
+Ver ganancias totales
+Ver productos más vendidos
+
+Filtros:
+
+Por rango de fechas
+4.5 Configuración
+
+Funciones:
+
+Datos del negocio
+Configuración de moneda (DOP)
+Exportación de datos (Excel/CSV)
+5. 🗂️ Modelo de Datos
+Tabla: Productos
+id (PK)
+nombre
+precio_compra
+precio_venta
+stock
+stock_minimo
+Tabla: Ventas
+id (PK)
+fecha
+total
+metodo_pago
+Tabla: Detalle_Venta
+id (PK)
+venta_id (FK)
+producto_id (FK)
+cantidad
+precio
+Tabla: Movimientos_Inventario
+id (PK)
+producto_id (FK)
+tipo (entrada/salida)
+cantidad
+fecha
+6. 🔄 Flujos del Sistema
+6.1 Flujo de Venta
+Usuario busca producto
+Agrega producto
+Confirma pago
+Sistema guarda venta
+Sistema descuenta stock
+6.2 Flujo de Inventario
+Usuario selecciona producto
+Ajusta cantidad
+Sistema actualiza stock
+6.3 Flujo de Reportes
+Usuario selecciona rango de fechas
+Sistema muestra resultados
+7. 🔔 Reglas de Negocio
+El stock debe disminuir automáticamente al registrar una venta
+No permitir ventas si el stock es 0 (opcional configurable)
+Mostrar alerta si stock ≤ stock mínimo
+Calcular ganancia automáticamente
+8. ⚡ Requisitos No Funcionales
+Interfaz rápida (ventas en menos de 5 segundos)
+Diseño simple e intuitivo
+Sistema disponible 24/7
+Adaptable a diferentes tamaños de pantalla
+Seguridad básica (login opcional)
+9. 🚀 Alcance MVP (Primera Versión)
+
+Incluye:
+
+Ventas (POS)
+Inventario
+Reportes básicos
+
+No incluye:
+
+Multiusuarios
+Facturación fiscal avanzada
+Integraciones externas
+10. 📈 Escalabilidad Futura
+Gestión de clientes (crédito)
+Facturación electrónica
+App móvil nativa
+Integración con impresoras térmicas
+Estadísticas avanzadas
+11. ⚠️ Consideraciones Finales
+El sistema debe priorizar velocidad sobre diseño complejo
+Debe ser usable sin capacitación extensa
+Debe evitar pasos innecesarios
+12. ✅ Resultado Esperado
+
+Un sistema que permita:
+
+Control total del inventario
+Registro eficiente de ventas
+Visualización clara de ganancias
+Reducción de errores operativos

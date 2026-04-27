@@ -1,0 +1,24 @@
+{
+  "Productos": [],
+  "Ventas": [],
+  "Detalle_Venta": [],
+  "Movimientos_Inventario": [],
+  "nextIds": {
+    "productos": 1,
+    "ventas": 1,
+    "detalle": 1,
+    "movimientos": 1,
+    "usuarios": 2
+  },
+  "Usuarios": [
+    {
+      "id": 1,
+      "nombre": "Administrador",
+      "email": "admin@ferrecontrol.com",
+      "password": "admin123",
+      "pin": "1234",
+      "rol": "admin",
+      "fecha_creacion": "2026-04-27T20:07:30.498Z"
+    }
+  ]
+}
