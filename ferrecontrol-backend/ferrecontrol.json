@@ -1,10 +1,132 @@
 {
-  "Productos": [],
+  "Productos": [
+    {
+      "id": 1,
+      "codigo": "1",
+      "nombre": "Cemento gris 50kg",
+      "descripcion": "Construcción",
+      "precio_compra": 0,
+      "precio_venta": 450,
+      "stock": 100,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 2,
+      "codigo": "2",
+      "nombre": "Arena (saco)",
+      "descripcion": "Construcción",
+      "precio_compra": 0,
+      "precio_venta": 120,
+      "stock": 200,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 3,
+      "codigo": "3",
+      "nombre": "Grava (saco)",
+      "descripcion": "Construcción",
+      "precio_compra": 0,
+      "precio_venta": 130,
+      "stock": 180,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 4,
+      "codigo": "4",
+      "nombre": "Varilla 3/8",
+      "descripcion": "Construcción",
+      "precio_compra": 0,
+      "precio_venta": 320,
+      "stock": 150,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 5,
+      "codigo": "5",
+      "nombre": "Bloque 6 pulgadas",
+      "descripcion": "Construcción",
+      "precio_compra": 0,
+      "precio_venta": 65,
+      "stock": 500,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 6,
+      "codigo": "6",
+      "nombre": "Martillo",
+      "descripcion": "Herramientas",
+      "precio_compra": 0,
+      "precio_venta": 350,
+      "stock": 50,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 7,
+      "codigo": "7",
+      "nombre": "Serrucho",
+      "descripcion": "Herramientas",
+      "precio_compra": 0,
+      "precio_venta": 400,
+      "stock": 40,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 8,
+      "codigo": "8",
+      "nombre": "Taladro eléctrico",
+      "descripcion": "Herramientas",
+      "precio_compra": 0,
+      "precio_venta": 2800,
+      "stock": 25,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 9,
+      "codigo": "9",
+      "nombre": "Destornillador plano",
+      "descripcion": "Herramientas",
+      "precio_compra": 0,
+      "precio_venta": 120,
+      "stock": 60,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 10,
+      "codigo": "10",
+      "nombre": "Destornillador estrella",
+      "descripcion": "Herramientas",
+      "precio_compra": 0,
+      "precio_venta": 130,
+      "stock": 60,
+      "stock_minimo": 5,
+      "categoria": ""
+    },
+    {
+      "id": 11,
+      "codigo": "1",
+      "nombre": "Cemento gris 50kg",
+      "descripcion": "",
+      "precio_compra": 0.01,
+      "precio_venta": 450,
+      "stock": 100,
+      "stock_minimo": 10,
+      "categoria": ""
+    }
+  ],
   "Ventas": [],
   "Detalle_Venta": [],
   "Movimientos_Inventario": [],
   "nextIds": {
-    "productos": 1,
+    "productos": 12,
     "ventas": 1,
     "detalle": 1,
     "movimientos": 1,
