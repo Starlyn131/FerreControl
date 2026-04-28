@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import API_URL from '../config'
 
 function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState([])
@@ -10,7 +11,7 @@ function GestionUsuarios() {
   useEffect(function() { loadUsuarios() }, [])
 
   function loadUsuarios() {
-    fetch('/api/usuarios')
+    fetch(API_URL + '/api/usuarios')
       .then(function(res) { return res.json() })
       .then(function(data) { setUsuarios(data); setLoading(false) })
       .catch(function(err) { console.error('Error:', err); setLoading(false) })
@@ -18,7 +19,7 @@ function GestionUsuarios() {
 
   function handleSubmit(e) {
     e.preventDefault()
-    var url = editingUser ? '/api/usuarios/' + editingUser.id : '/api/usuarios'
+    var url = editingUser ? API_URL + '/api/usuarios/' + editingUser.id : API_URL + '/api/usuarios'
     var method = editingUser ? 'PUT' : 'POST'
     var dataToSend = Object.assign({}, formData)
     if (editingUser && !dataToSend.password) delete dataToSend.password
@@ -41,7 +42,7 @@ function GestionUsuarios() {
 
   function handleDelete(id) {
     if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
-      fetch('/api/usuarios/' + id, { method: 'DELETE' })
+      fetch(API_URL + '/api/usuarios/' + id, { method: 'DELETE' })
         .then(function() { loadUsuarios() })
         .catch(function(err) { console.error('Error:', err) })
     }

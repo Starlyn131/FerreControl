@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import API_URL from '../config'
 
 function Configuracion() {
   const [config, setConfig] = useState({
@@ -25,9 +26,9 @@ function Configuracion() {
     setConfig({...config, exportando: true})
     
     Promise.all([
-      fetch('/api/productos').then(res => res.json()),
-      fetch('/api/ventas').then(res => res.json()),
-      fetch('/api/movimientos').then(res => res.json())
+      fetch(API_URL + '/api/productos').then(res => res.json()),
+      fetch(API_URL + '/api/ventas').then(res => res.json()),
+      fetch(API_URL + '/api/movimientos').then(res => res.json())
     ]).then(([productos, ventas, movimientos]) => {
       const datos = {
         productos,

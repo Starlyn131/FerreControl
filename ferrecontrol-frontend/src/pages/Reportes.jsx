@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import API_URL from '../config'
 
 function Reportes() {
   const [ventasDiarias, setVentasDiarias] = useState(null)
@@ -14,17 +15,17 @@ function Reportes() {
   const cargarReportes = () => {
     setLoading(true)
     
-    fetch(`/api/reportes/ventas-diarias?fecha=${fechaReporte}`)
+    fetch(API_URL + `/api/reportes/ventas-diarias?fecha=${fechaReporte}`)
       .then(res => res.json())
       .then(data => {
         setVentasDiarias(data)
         
-        fetch('/api/reportes/ventas-mensuales')
+        fetch(API_URL + '/api/reportes/ventas-mensuales')
           .then(res => res.json())
           .then(data => setVentasMensuales(data))
           .catch(err => console.error(err))
 
-        fetch('/api/reportes/productos-mas-vendidos')
+        fetch(API_URL + '/api/reportes/productos-mas-vendidos')
           .then(res => res.json())
           .then(data => setProductosMasVendidos(data))
           .catch(err => console.error(err))
@@ -37,7 +38,7 @@ function Reportes() {
   }
 
   const verReporteFecha = () => {
-    fetch(`/api/reportes/ventas-diarias?fecha=${fechaReporte}`)
+    fetch(API_URL + `/api/reportes/ventas-diarias?fecha=${fechaReporte}`)
       .then(res => res.json())
       .then(data => setVentasDiarias(data))
       .catch(err => console.error(err))

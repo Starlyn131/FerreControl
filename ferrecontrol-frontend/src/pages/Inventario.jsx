@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import API_URL from '../config'
 
 function Inventario({ user }) {
   const [productos, setProductos] = useState([])
@@ -26,7 +27,7 @@ function Inventario({ user }) {
   }, [])
 
   const loadProductos = () => {
-    fetch('/api/productos')
+    fetch(API_URL + '/api/productos')
       .then(res => res.json())
       .then(data => {
         setProductos(data)
@@ -40,7 +41,7 @@ function Inventario({ user }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const url = editingProduct ? `/api/productos/${editingProduct.id}` : '/api/productos'
+    const url = editingProduct ? API_URL + `/api/productos/${editingProduct.id}` : API_URL + '/api/productos'
     const method = editingProduct ? 'PUT' : 'POST'
 
     fetch(url, {
@@ -75,7 +76,7 @@ function Inventario({ user }) {
 
   const handleDelete = (id) => {
     if (window.confirm('¿Estás seguro de eliminar este producto?')) {
-      fetch(`/api/productos/${id}`, { method: 'DELETE' })
+      fetch(API_URL + `/api/productos/${id}`, { method: 'DELETE' })
         .then(() => loadProductos())
         .catch(err => console.error('Error:', err))
     }
@@ -168,7 +169,7 @@ function Inventario({ user }) {
   }
 
   const confirmarImportacion = () => {
-    fetch('/api/productos/importar', {
+    fetch(API_URL + '/api/productos/importar', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ productos: importPreview })

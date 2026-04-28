@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import API_URL from '../config'
 
 function Ventas() {
   const [productos, setProductos] = useState([])
@@ -10,7 +11,7 @@ function Ventas() {
   const [mensaje, setMensaje] = useState('')
 
   useEffect(() => {
-    fetch('/api/productos')
+    fetch(API_URL + '/api/productos')
       .then(res => res.json())
       .then(data => {
         setProductos(data)
@@ -97,7 +98,7 @@ function Ventas() {
       return
     }
 
-    fetch('/api/ventas', {
+    fetch(API_URL + '/api/ventas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

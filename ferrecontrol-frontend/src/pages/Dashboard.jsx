@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import API_URL from '../config'
 
 function Dashboard() {
   const [dashboard, setDashboard] = useState({
@@ -9,7 +10,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/dashboard')
+    fetch(API_URL + '/api/dashboard')
       .then(res => res.json())
       .then(data => {
         setDashboard(data)

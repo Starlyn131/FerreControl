@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import API_URL from '../config'
 
 function Login() {
   const navigate = useNavigate()
@@ -29,7 +30,7 @@ function Login() {
       ? { pin: formData.pin }
       : { email: formData.email, password: formData.password }
 
-    fetch('/api/login', {
+    fetch(API_URL + '/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
