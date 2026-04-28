@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+ferrecontrol-backend/node_modules/
+ferrecontrol-frontend/node_modules/
+
+# Build outputs
+dist/
+ferrecontrol-frontend/dist/
+
+# Data files (optional - comment if you want to keep data in repo)
+ferrecontrol-backend/ferrecontrol.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Vercel
+.vercel/
