@@ -157,10 +157,7 @@ function Login() {
           </form>
 
           <div className="mt-4 p-3 bg-blue-50 rounded-lg text-sm text-blue-800">
-            <p className="font-semibold">Datos de prueba:</p>
-            <p>Email: admin@ferrecontrol.com</p>
-            <p>Contraseña: admin123</p>
-            <p>PIN: 1234</p>
+            <p className="font-semibold">FerreControl - Sistema de Gestión</p>
           </div>
         </div>
       </div>
