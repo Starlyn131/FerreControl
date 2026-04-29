@@ -22,12 +22,19 @@ function readData() {
         {"id": 2, "nombre": "Jefe/Gerente", "email": "gerente@ferrecontrol.com", "password": "gerente123", "pin": "2345", "rol": "gerente"},
         {"id": 3, "nombre": "Vendedor", "email": "vendedor@ferrecontrol.com", "password": "vendedor123", "pin": "3456", "rol": "vendedor"}
       ],
-      "nextIds": {"productos": 4, "ventas": 1, "detalle": 1, "movimientos": 1, "usuarios": 4}
+      "Facturas": [],
+      "nextIds": {"productos": 4, "ventas": 1, "detalle": 1, "movimientos": 1, "usuarios": 4, "facturas": 1}
     };
     fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2));
     return initial;
   }
-  return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+  var data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+  if (!data.Ventas) data.Ventas = []
+  if (!data.Detalle_Venta) data.Detalle_Venta = []
+  if (!data.Productos) data.Productos = []
+  if (!data.Usuarios) data.Usuarios = []
+  if (!data.Facturas) data.Facturas = []
+  return data
 }
 
 function saveData(data) {
