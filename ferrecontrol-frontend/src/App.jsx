@@ -7,6 +7,7 @@ import Reportes from './pages/Reportes'
 import Configuracion from './pages/Configuracion'
 import Login from './pages/Login'
 import GestionUsuarios from './pages/GestionUsuarios'
+import Facturacion from './pages/Facturacion'
 
 function App() {
   const [user, setUser] = useState(null)
@@ -72,7 +73,7 @@ function App() {
                     POS - Ventas
                   </NavLink>
                 )}
-                {isGerente && (
+                 {isGerente && (
                   <NavLink
                     to="/reportes"
                     className={({ isActive }) =>
@@ -80,6 +81,16 @@ function App() {
                     }
                   >
                     Reportes
+                  </NavLink>
+                )}
+                {isGerente && (
+                  <NavLink
+                    to="/facturacion"
+                    className={({ isActive }) =>
+                      `${isActive ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`
+                    }
+                  >
+                    Facturación
                   </NavLink>
                 )}
                 {isAdmin && (
@@ -115,6 +126,7 @@ function App() {
           <Route path="/inventario" element={<Inventario user={user} />} />
           {isVendedor && <Route path="/ventas" element={<Ventas />} />}
           {isGerente && <Route path="/reportes" element={<Reportes />} />}
+          {isGerente && <Route path="/facturacion" element={<Facturacion />} />}
           {isAdmin && <Route path="/configuracion" element={<Configuracion />} />}
           {/* Usuarios desahibilitado temporalmente */}
         </Routes>

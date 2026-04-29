@@ -160,6 +160,34 @@ app.post('/api/ventas', function(req, res) {
   }
   saveData(data);
   res.json({"id": venta.id, "message": "Venta completada", "total": total, "cambio": cambio});
+  });
+
+// FACTURAS
+app.get('/api/facturas', function(req, res) {
+  var data = readData();
+  res.json(data.Facturas || []);
+});
+
+app.post('/api/facturas', function(req, res) {
+  var data = readData();
+  if (!data.Facturas) data.Facturas = [];
+  
+  var nuevaFactura = {
+    "id": data.nextIds.facturas++,
+    "venta_id": req.body.venta_id,
+    "numero": 'FAC-' + Date.now(),
+    "fecha": new Date().toISOString(),
+    "cliente": req.body.cliente || 'Consumidor Final',
+    "rnc": req.body.rnc || '',
+    "subtotal": req.body.subtotal,
+    "impuesto": req.body.impuesto || 0,
+    "total": req.body.total,
+    "estado": 'emitida'
+  };
+  
+  data.Facturas.push(nuevaFactura);
+  saveData(data);
+  res.json({"id": nuevaFactura.id, "message": "Factura generada", "numero": nuevaFactura.numero});
 });
 
 // DASHBOARD
