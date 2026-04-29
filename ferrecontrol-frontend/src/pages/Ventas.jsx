@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import API_URL from '../config'
 
 function Ventas() {
@@ -9,6 +10,7 @@ function Ventas() {
   const [montoRecibido, setMontoRecibido] = useState('')
   const [loading, setLoading] = useState(true)
   const [mensaje, setMensaje] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch(API_URL + '/api/productos')
@@ -120,7 +122,7 @@ function Ventas() {
         // Redirigir al Dashboard después de 2 segundos
         setTimeout(() => {
           setMensaje('')
-          window.location.href = '/'
+          navigate('/')
         }, 2000)
       })
       .catch(err => {
