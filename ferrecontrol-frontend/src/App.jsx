@@ -92,16 +92,7 @@ function App() {
                     Configuración
                   </NavLink>
                 )}
-                {isAdmin && (
-                  <NavLink
-                    to="/usuarios"
-                    className={({ isActive }) =>
-                      `${isActive ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`
-                    }
-                  >
-                    Usuarios
-                  </NavLink>
-                )}
+                {/* Usuarios desahibilitado temporalmente */}
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -125,7 +116,7 @@ function App() {
           {isVendedor && <Route path="/ventas" element={<Ventas />} />}
           {isGerente && <Route path="/reportes" element={<Reportes />} />}
           {isAdmin && <Route path="/configuracion" element={<Configuracion />} />}
-          {isAdmin && <Route path="/usuarios" element={<GestionUsuarios />} />}
+          {/* Usuarios desahibilitado temporalmente */}
         </Routes>
       </main>
 

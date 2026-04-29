@@ -4,6 +4,7 @@ import API_URL from '../config'
 function GestionUsuarios() {
   const [usuarios, setUsuarios] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [editingUser, setEditingUser] = useState(null)
   const [formData, setFormData] = useState({ nombre: '', email: '', password: '', pin: '', rol: 'vendedor' })
@@ -12,9 +13,23 @@ function GestionUsuarios() {
 
   function loadUsuarios() {
     fetch(API_URL + '/api/usuarios')
-      .then(function(res) { return res.json() })
-      .then(function(data) { setUsuarios(data); setLoading(false) })
-      .catch(function(err) { console.error('Error:', err); setLoading(false) })
+      .then(function(res) { 
+        if (!res.ok) throw new Error('Server error: ' + res.status);
+        return res.json(); 
+      })
+      .then(function(data) { 
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setUsuarios(data); 
+        }
+        setLoading(false); 
+      })
+      .catch(function(err) { 
+        console.error('Error:', err); 
+        setError('Error: ' + err.message);
+        setLoading(false); 
+      })
   }
 
   function handleSubmit(e) {
