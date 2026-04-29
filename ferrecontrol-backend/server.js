@@ -11,35 +11,67 @@ app.use(cors());
 app.use(express.json());
 
 function readData() {
-  if (!fs.existsSync(DATA_FILE)) {
-    var initial = {
-      "Productos": [],
-      "Ventas": [],
-      "Detalle_Venta": [],
-      "Movimientos_Inventario": [],
-      "Usuarios": [
-        {"id": 1, "nombre": "Administrador", "email": "admin@ferrecontrol.com", "password": "admin123", "pin": "1234", "rol": "admin"},
-        {"id": 2, "nombre": "Jefe/Gerente", "email": "gerente@ferrecontrol.com", "password": "gerente123", "pin": "2345", "rol": "gerente"},
-        {"id": 3, "nombre": "Vendedor", "email": "vendedor@ferrecontrol.com", "password": "vendedor123", "pin": "3456", "rol": "vendedor"}
-      ],
-      "Facturas": [],
-      "nextIds": {"productos": 4, "ventas": 1, "detalle": 1, "movimientos": 1, "usuarios": 4, "facturas": 1}
-    };
-    fs.writeFileSync(DATA_FILE, JSON.stringify(initial, null, 2));
-    return initial;
+  var data = { 
+    "Productos": [], 
+    "Ventas": [], 
+    "Detalle_Venta": [], 
+    "Movimientos_Inventario": [], 
+    "Usuarios": [], 
+    "Facturas": [],
+    "nextIds": { "productos": 1, "ventas": 1, "detalle": 1, "movimientos": 1, "usuarios": 1, "facturas": 1 } 
+  };
+  
+  if (fs.existsSync(DATA_FILE)) {
+    try {
+      var fileData = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
+      // Merge with defaults, ensuring all properties exist
+      for (var key in data) {
+        if (fileData[key] !== undefined) {
+          data[key] = fileData[key];
+        }
+      }
+      // Ensure arrays are arrays
+      if (!Array.isArray(data.Ventas)) data.Ventas = [];
+      if (!Array.isArray(data.Productos)) data.Productos = [];
+      if (!Array.isArray(data.Usuarios)) data.Usuarios = [];
+      if (!Array.isArray(data.Facturas)) data.Facturas = [];
+    } catch(e) {
+      console.error('Error reading JSON, using defaults:', e.message);
+    }
   }
-  var data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-  if (!data.Ventas) data.Ventas = []
-  if (!data.Detalle_Venta) data.Detalle_Venta = []
-  if (!data.Productos) data.Productos = []
-  if (!data.Usuarios) data.Usuarios = []
-  if (!data.Facturas) data.Facturas = []
-  return data
+  
+  // Ensure default users exist
+  if (data.Usuarios.length === 0) {
+    data.Usuarios = [
+      {"id": 1, "nombre": "Administrador", "email": "admin@ferrecontrol.com", "password": "admin123", "pin": "1234", "rol": "admin"},
+      {"id": 2, "nombre": "Jefe/Gerente", "email": "gerente@ferrecontrol.com", "password": "gerente123", "pin": "2345", "rol": "gerente"},
+      {"id": 3, "nombre": "Vendedor", "email": "vendedor@ferrecontrol.com", "password": "vendedor123", "pin": "3456", "rol": "vendedor"}
+    ];
+    console.log('Default users created');
+  }
+  
+  return data;
 }
 
 function saveData(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+    console.log('Data saved. Ventas count: ' + data.Ventas.length);
+  } catch(e) {
+    console.error('Error saving:', e.message);
+  }
 }
+
+// STATUS endpoint for debugging
+app.get('/api/status', function(req, res) {
+  var data = readData();
+  res.json({
+    "ventas_count": data.Ventas.length,
+    "productos_count": data.Productos.length,
+    "usuarios_count": data.Usuarios.length,
+    "file_exists": fs.existsSync(DATA_FILE)
+  });
+});
 
 // LOGIN
 app.post('/api/login', function(req, res) {
@@ -60,7 +92,6 @@ app.post('/api/login', function(req, res) {
 
 // USUARIOS
 app.get('/api/usuarios', function(req, res) { res.json(readData().Usuarios); });
-
 app.post('/api/usuarios', function(req, res) {
   var data = readData();
   var nuevo = {
@@ -77,27 +108,8 @@ app.post('/api/usuarios', function(req, res) {
   res.json({"id": nuevo.id, "message": "Usuario creado"});
 });
 
-app.put('/api/usuarios/:id', function(req, res) {
-  var data = readData();
-  var id = parseInt(req.params.id);
-  var user = data.Usuarios.find(function(u) { return u.id === id; });
-  if (!user) return res.status(404).json({"error": "No encontrado"});
-  Object.assign(user, req.body);
-  user.id = id;
-  saveData(data);
-  res.json({"message": "Usuario actualizado"});
-});
-
-app.delete('/api/usuarios/:id', function(req, res) {
-  var data = readData();
-  data.Usuarios = data.Usuarios.filter(function(u) { return u.id !== parseInt(req.params.id); });
-  saveData(data);
-  res.json({"message": "Usuario eliminado"});
-});
-
 // PRODUCTOS
 app.get('/api/productos', function(req, res) { res.json(readData().Productos); });
-
 app.post('/api/productos', function(req, res) {
   var data = readData();
   var nuevo = {
@@ -116,32 +128,19 @@ app.post('/api/productos', function(req, res) {
   res.json({"id": nuevo.id, "message": "Producto creado"});
 });
 
-app.put('/api/productos/:id', function(req, res) {
-  var data = readData();
-  var id = parseInt(req.params.id);
-  var prod = data.Productos.find(function(p) { return p.id === id; });
-  if (!prod) return res.status(404).json({"error": "No encontrado"});
-  Object.assign(prod, req.body);
-  prod.id = id;
-  saveData(data);
-  res.json({"message": "Producto actualizado"});
-});
-
-app.delete('/api/productos/:id', function(req, res) {
-  var data = readData();
-  data.Productos = data.Productos.filter(function(p) { return p.id !== parseInt(req.params.id); });
-  saveData(data);
-  res.json({"message": "Producto eliminado"});
-});
-
 // VENTAS
+app.get('/api/ventas', function(req, res) { res.json(readData().Ventas); });
 app.post('/api/ventas', function(req, res) {
   var data = readData();
   var productos = req.body.productos;
   var metodo_pago = req.body.metodo_pago;
   var monto_recibido = parseFloat(req.body.monto_recibido) || 0;
+  
   var total = 0;
-  for (var i = 0; i < productos.length; i++) { total += productos[i].cantidad * productos[i].precio_unitario; }
+  for (var i = 0; i < productos.length; i++) { 
+    total += productos[i].cantidad * productos[i].precio_unitario; 
+  }
+  
   var cambio = monto_recibido > total ? monto_recibido - total : 0;
   var venta = {
     "id": data.nextIds.ventas++,
@@ -152,7 +151,10 @@ app.post('/api/ventas', function(req, res) {
     "cambio": cambio,
     "estado": "completada"
   };
+  
   data.Ventas.push(venta);
+  console.log('Venta added. Total ventas: ' + data.Ventas.length);
+  
   for (var j = 0; j < productos.length; j++) {
     data.Detalle_Venta.push({
       "id": data.nextIds.detalle++,
@@ -162,52 +164,31 @@ app.post('/api/ventas', function(req, res) {
       "precio_unitario": productos[j].precio_unitario,
       "subtotal": productos[j].cantidad * productos[j].precio_unitario
     });
-    var prod = data.Productos.find(function(p) { return p.id === productos[j].producto_id; });
-    if (prod) prod.stock -= productos[j].cantidad;
   }
+  
   saveData(data);
   res.json({"id": venta.id, "message": "Venta completada", "total": total, "cambio": cambio});
-  });
-
-// FACTURAS
-app.get('/api/facturas', function(req, res) {
-  var data = readData();
-  res.json(data.Facturas || []);
-});
-
-app.post('/api/facturas', function(req, res) {
-  var data = readData();
-  if (!data.Facturas) data.Facturas = [];
-  
-  var nuevaFactura = {
-    "id": data.nextIds.facturas++,
-    "venta_id": req.body.venta_id,
-    "numero": 'FAC-' + Date.now(),
-    "fecha": new Date().toISOString(),
-    "cliente": req.body.cliente || 'Consumidor Final',
-    "rnc": req.body.rnc || '',
-    "subtotal": req.body.subtotal,
-    "impuesto": req.body.impuesto || 0,
-    "total": req.body.total,
-    "estado": 'emitida'
-  };
-  
-  data.Facturas.push(nuevaFactura);
-  saveData(data);
-  res.json({"id": nuevaFactura.id, "message": "Factura generada", "numero": nuevaFactura.numero});
 });
 
 // DASHBOARD
 app.get('/api/dashboard', function(req, res) {
   var data = readData();
   var hoy = new Date().toISOString().split('T')[0];
-  var ventasHoy = data.Ventas.filter(function(v) { return v.fecha.startsWith(hoy); });
+  var ventasHoy = data.Ventas.filter(function(v) { return v.fecha && v.fecha.startsWith(hoy); });
   var ingresosHoy = ventasHoy.reduce(function(s, v) { return s + v.total; }, 0);
   var stockBajo = data.Productos.filter(function(p) { return p.stock <= p.stock_minimo; }).length;
   res.json({
     "productos": {"total": data.Productos.length, "stock_bajo": stockBajo},
     "ventas_hoy": {"ventas": ventasHoy.length, "ingresos": ingresosHoy}
   });
+});
+
+// REPORTES
+app.get('/api/reportes/ventas-diarias', function(req, res) {
+  var data = readData();
+  var fecha = req.query.fecha || new Date().toISOString().split('T')[0];
+  var ventasDelDia = data.Ventas.filter(function(v) { return v.fecha && v.fecha.startsWith(fecha); });
+  res.json({"fecha": fecha, "ventas": ventasDelDia, "total": ventasDelDia.reduce(function(s, v) { return s + v.total; }, 0)});
 });
 
 app.listen(PORT, function() { console.log('Servidor en puerto ' + PORT); });
