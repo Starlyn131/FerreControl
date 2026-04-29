@@ -117,7 +117,11 @@ function Ventas() {
         setCarrito([])
         setMontoRecibido('')
         setBusqueda('')
-        setTimeout(() => setMensaje(''), 5000)
+        // Redirigir al Dashboard después de 2 segundos
+        setTimeout(() => {
+          setMensaje('')
+          window.location.href = '/'
+        }, 2000)
       })
       .catch(err => {
         console.error('Error:', err)
